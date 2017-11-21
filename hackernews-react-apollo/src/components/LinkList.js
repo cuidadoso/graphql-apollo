@@ -8,17 +8,6 @@ import gql from 'graphql-tag';
 import { Link } from './';
 import ALL_LINKS from '../api/queries/allLinks.graphql';
 
-const ALL_LINKS_QUERY = gql`
-    query AllLinksQuery {
-        allLinks {
-            id
-            createdAt
-            url
-            description
-        }
-    }
-`;
-
 class LinkList extends Component {
 
     render() {
@@ -44,5 +33,15 @@ class LinkList extends Component {
 
 }
 
-// export default LinkList
+const ALL_LINKS_QUERY = gql`
+    query AllLinksQuery {
+        allLinks {
+            id
+            createdAt
+            url
+            description
+        }
+    }
+`;
+
 export default graphql(ALL_LINKS_QUERY, { name: 'allLinksQuery' }) (LinkList)
