@@ -1,8 +1,8 @@
 query AllLinksQuery {
-    allLinks {
-        id
-        createdAt
-        url
-        description
-    }
+  allLinks {
+    id
+    createdAt
+    url
+    description
+  }
 }

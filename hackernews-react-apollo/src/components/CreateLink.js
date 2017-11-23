@@ -1,61 +1,59 @@
 /**
  * @author Alexander Pyreev
  */
-import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import React, {Component} from 'react';
+import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
-
-import CREATE_LINK from '../api/queries/createLink.graphql';
 
 class CreateLink extends Component {
 
-    state = {
-        description: '',
-        url: ''
-    };
+  state = {
+    description: '',
+    url: ''
+  };
 
-    render() {
-        return (
-            <div>
-                <div className='flex flex-column mt3'>
-                    <input
-                        className='mb2'
-                        value={this.state.description}
-                        onChange={(e) => this.setState({ description: e.target.value })}
-                        type='text'
-                        placeholder='A description for the link'
-                    />
-                    <input
-                        className='mb2'
-                        value={this.state.url}
-                        onChange={(e) => this.setState({ url: e.target.value })}
-                        type='text'
-                        placeholder='The URL for the link'
-                    />
-                </div>
-                <button
-                    onClick={() => this._createLink()}
-                >
-                    Submit
-                </button>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <div className='flex flex-column mt3'>
+          <input
+            className='mb2'
+            value={this.state.description}
+            onChange={(e) => this.setState({ description: e.target.value })}
+            type='text'
+            placeholder='A description for the link'
+          />
+          <input
+            className='mb2'
+            value={this.state.url}
+            onChange={(e) => this.setState({ url: e.target.value })}
+            type='text'
+            placeholder='The URL for the link'
+          />
+        </div>
+        <button
+          onClick={() => this._createLink()}
+        >
+          Submit
+        </button>
+      </div>
+    );
+  }
 
-    async _createLink() {
-        const { description, url } = this.state;
-        await this.props.createLinkMutation({
-            variables: {
-                description,
-                url
-            }
-        });
-        this.props.history.push(`/`);
-    }
+  async _createLink() {
+    const { description, url } = this.state;
+    await this.props.createLinkMutation({
+      variables: {
+        description,
+        url
+      }
+    });
+    this.props.history.push(`/`);
+  }
 
 }
 
-const CREATE_LINK_MUTATION = gql`    
+const CREATE_LINK_MUTATION = gql`
     mutation CreateLinkMutation($description: String!, $url: String!) {
         createLink(
             description: $description,
@@ -69,5 +67,5 @@ const CREATE_LINK_MUTATION = gql`
     }
 `;
 
-export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
+export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink);
 

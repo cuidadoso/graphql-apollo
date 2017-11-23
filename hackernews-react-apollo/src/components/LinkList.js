@@ -1,35 +1,34 @@
 /**
  * @author Alexander Pyreev
  */
-import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import React, {Component} from 'react';
+import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Link } from './';
-import ALL_LINKS from '../api/queries/allLinks.graphql';
+import {Link} from './';
 
 class LinkList extends Component {
 
-    render() {
+  render() {
 
-        if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
-            return <div>Loading</div>
-        }
-
-        if (this.props.allLinksQuery && this.props.allLinksQuery.error) {
-            return <div>Error</div>
-        }
-
-        const linksToRender = this.props.allLinksQuery.allLinks;
-
-        return (
-            <div>
-                {linksToRender.map(link => (
-                    <Link key={link.id} link={link}/>
-                ))}
-            </div>
-        )
+    if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
+      return <div>Loading</div>;
     }
+
+    if (this.props.allLinksQuery && this.props.allLinksQuery.error) {
+      return <div>Error</div>;
+    }
+
+    const linksToRender = this.props.allLinksQuery.allLinks;
+
+    return (
+      <div>
+        {linksToRender.map(link => (
+          <Link key={link.id} link={link}/>
+        ))}
+      </div>
+    );
+  }
 
 }
 
@@ -44,4 +43,4 @@ const ALL_LINKS_QUERY = gql`
     }
 `;
 
-export default graphql(ALL_LINKS_QUERY, { name: 'allLinksQuery' }) (LinkList)
+export default graphql(ALL_LINKS_QUERY, { name: 'allLinksQuery' })(LinkList);
