@@ -3,7 +3,7 @@
  */
 import App from './App';
 import Link from './Link';
-import LinkList from './LinkList';
+import LinkList, { ALL_LINKS_QUERY } from './LinkList';
 import CreateLink from './CreateLink';
 import Header from './Header';
 import Login from './Login';
@@ -14,5 +14,6 @@ export {
   LinkList,
   CreateLink,
   Header,
-  Login
+  Login,
+  ALL_LINKS_QUERY,
 };

@@ -10,14 +10,6 @@ import gql from 'graphql-tag';
 class Link extends Component {
 
   render() {
-    return (
-      <div>
-        <div>{this.props.link.description} ({this.props.link.url})</div>
-      </div>
-    );
-  }
-
-  render() {
     const userId = localStorage.getItem(GC_USER_ID);
     return (
       <div className='flex mt2 items-start'>
@@ -48,6 +40,9 @@ class Link extends Component {
       variables: {
         userId,
         linkId
+      },
+      update: (store, { data: { createVote } }) => {
+          this.props.updateStoreAfterVote(store, createVote, linkId)
       }
     })
   };
