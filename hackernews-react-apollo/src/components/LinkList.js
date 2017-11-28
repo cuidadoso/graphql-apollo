@@ -23,8 +23,8 @@ class LinkList extends Component {
 
     return (
       <div>
-        {linksToRender.map(link => (
-          <Link key={link.id} link={link}/>
+        {linksToRender.map((link, index) => (
+          <Link key={link.id} index={index} link={link}/>
         ))}
       </div>
     );
@@ -33,14 +33,24 @@ class LinkList extends Component {
 }
 
 const ALL_LINKS_QUERY = gql`
-    query AllLinksQuery {
-        allLinks {
-            id
-            createdAt
-            url
-            description
+  query AllLinksQuery {
+    allLinks {
+      id
+      createdAt
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
         }
+      }
     }
+  }
 `;
 
 export default graphql(ALL_LINKS_QUERY, { name: 'allLinksQuery' })(LinkList);
