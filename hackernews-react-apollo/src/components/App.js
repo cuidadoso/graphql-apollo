@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import '../styles/App.css';
 
-import {CreateLink, Header, LinkList, Login} from './';
+import { CreateLink, Header, LinkList, Login, Search } from './';
 
 class App extends Component {
   render() {
@@ -14,6 +14,7 @@ class App extends Component {
             <Route exact path='/login' component={Login}/>
             <Route exact path='/' component={LinkList}/>
             <Route exact path='/create' component={CreateLink}/>
+            <Route exact path='/search' component={Search}/>
           </Switch>
         </div>
       </div>
