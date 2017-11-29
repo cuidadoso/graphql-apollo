@@ -9,6 +9,11 @@ import {Link} from './';
 
 class LinkList extends Component {
 
+  componentDidMount() {
+    this._subscribeToNewLinks();
+    this._subscribeToNewVotes();
+  }
+
   render() {
 
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
@@ -38,6 +43,88 @@ class LinkList extends Component {
 
     store.writeQuery({ query: ALL_LINKS_QUERY, data })
   };
+
+  _subscribeToNewLinks = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+        subscription {
+          Link(filter: {
+            mutation_in: [CREATED]
+          }) {
+            node {
+            id
+            url
+            description
+            createdAt
+            postedBy {
+              id
+              name
+            }
+              votes {
+                id
+                user {
+                  id
+                }
+              }
+            }
+          }
+        }`,
+      updateQuery: (previous, { subscriptionData }) => {
+        const newAllLinks = [
+          subscriptionData.data.Link.node,
+          ...previous.allLinks
+        ];
+        return {
+          ...previous,
+          allLinks: newAllLinks
+        }
+      }
+    })
+  };
+
+  _subscribeToNewVotes = () => {
+    this.props.allLinksQuery.subscribeToMore({
+      document: gql`
+        subscription {
+          Vote(filter: {
+            mutation_in: [CREATED]
+          }) {
+            node {
+              id
+              link {
+                id
+                url
+                description
+                createdAt
+                postedBy {
+                  id
+                  name
+                }
+                votes {
+                  id
+                  user {
+                    id
+                  }
+                }
+              }
+              user {
+                id
+              }
+            }
+          }
+        }`,
+      updateQuery: (previous, { subscriptionData }) => {
+        const votedLinkIndex = previous.allLinks.findIndex(link => link.id === subscriptionData.data.Vote.node.link.id);
+        const link = subscriptionData.data.Vote.node.link;
+        const newAllLinks = previous.allLinks.slice();
+        newAllLinks[votedLinkIndex] = link;
+        return {
+          ...previous,
+          allLinks: newAllLinks
+        }
+      }
+    })
+  }
 }
 
 export const ALL_LINKS_QUERY = gql`
